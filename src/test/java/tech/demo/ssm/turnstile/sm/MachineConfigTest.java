@@ -1,6 +1,6 @@
 package tech.demo.ssm.turnstile.sm;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +14,8 @@ class MachineConfigTest {
     @Autowired
     StateMachine<DomainState, DomainEvent> machine;
 
-    @AfterEach
-    void tearDown() {
+    @BeforeEach
+    void setUp() {
         machine.stopReactively().block();
     }
 
@@ -34,20 +34,20 @@ class MachineConfigTest {
     @Test
     void givenOpen_whenPush_shouldClose() throws Exception {
         StateMachineTestPlan<DomainState, DomainEvent> plan =
-            StateMachineTestPlanBuilder.<DomainState, DomainEvent>builder()
-                .stateMachine(machine)
-                .step()
-                .expectStateMachineStarted(1)
-                .expectState(DomainState.LOCKED)
-                .and().step()
-                .sendEvent(DomainEvent.COIN)
-                .expectStateChanged(1)
-                .expectState(DomainState.UNLOCKED)
-                .and().step()
-                .sendEvent(DomainEvent.PUSH)
-                .expectStateChanged(1)
-                .expectState(DomainState.LOCKED)
-                .and().build();
+                StateMachineTestPlanBuilder.<DomainState, DomainEvent>builder()
+                        .stateMachine(machine)
+                        .step()
+                        .expectStateMachineStarted(1)
+                        .expectState(DomainState.LOCKED)
+                        .and().step()
+                        .sendEvent(DomainEvent.COIN)
+                        .expectStateChanged(1)
+                        .expectState(DomainState.UNLOCKED)
+                        .and().step()
+                        .sendEvent(DomainEvent.PUSH)
+                        .expectStateChanged(1)
+                        .expectState(DomainState.LOCKED)
+                        .and().build();
 
         plan.test();
     }

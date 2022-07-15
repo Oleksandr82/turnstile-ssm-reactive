@@ -4,12 +4,18 @@ import java.util.EnumSet;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
+import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 
 @Configuration
 @EnableStateMachine
 public class MachineConfig extends EnumStateMachineConfigurerAdapter<DomainState, DomainEvent> {
+
+    @Override
+    public void configure(StateMachineConfigurationConfigurer<DomainState, DomainEvent> config) throws Exception {
+        config.withConfiguration().autoStartup(true);
+    }
 
     @Override
     public void configure(StateMachineStateConfigurer<DomainState, DomainEvent> states) throws Exception {
