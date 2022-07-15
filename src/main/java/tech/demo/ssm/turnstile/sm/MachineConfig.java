@@ -8,6 +8,10 @@ import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+import tech.demo.ssm.turnstile.sm.actions.BeMoreGenerousAction;
+import tech.demo.ssm.turnstile.sm.actions.GoThroughAction;
+import tech.demo.ssm.turnstile.sm.actions.MakePaymentAction;
+import tech.demo.ssm.turnstile.sm.actions.YouShallNotPassAction;
 
 @Configuration
 @EnableStateMachine
@@ -15,6 +19,10 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 public class MachineConfig extends EnumStateMachineConfigurerAdapter<DomainState, DomainEvent> {
 
     private final MachineListener listener;
+    private final BeMoreGenerousAction beMoreGenerousAction;
+    private final GoThroughAction goThroughAction;
+    private final MakePaymentAction makePaymentAction;
+    private final YouShallNotPassAction youShallNotPassAction;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<DomainState, DomainEvent> config) throws Exception {
@@ -34,11 +42,21 @@ public class MachineConfig extends EnumStateMachineConfigurerAdapter<DomainState
     public void configure(StateMachineTransitionConfigurer<DomainState, DomainEvent> transitions) throws Exception {
         transitions
                 .withExternal()
-                .source(DomainState.LOCKED).target(DomainState.UNLOCKED)
+                .source(DomainState.LOCKED).target(DomainState.UNLOCKED).action(makePaymentAction)
                 .event(DomainEvent.COIN)
                 .and()
                 .withExternal()
-                .source(DomainState.UNLOCKED).target(DomainState.LOCKED)
+                .source(DomainState.UNLOCKED).target(DomainState.UNLOCKED).action(beMoreGenerousAction)
+                .event(DomainEvent.COIN)
+                .and()
+                .withExternal()
+                .source(DomainState.UNLOCKED).target(DomainState.LOCKED).action(goThroughAction)
+                .event(DomainEvent.PUSH)
+                .and()
+                .withExternal()
+                .source(DomainState.LOCKED).target(DomainState.LOCKED).action(youShallNotPassAction)
                 .event(DomainEvent.PUSH);
+
+
     }
 }

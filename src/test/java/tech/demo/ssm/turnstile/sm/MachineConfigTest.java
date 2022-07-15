@@ -20,7 +20,7 @@ class MachineConfigTest {
     }
 
     @Test
-    void givenOpen_whenStarted_shouldBeLocked() throws Exception {
+    void givenStarted_shouldBeLocked() throws Exception {
         StateMachineTestPlan<DomainState, DomainEvent> plan =
                 StateMachineTestPlanBuilder.<DomainState, DomainEvent>builder()
                         .stateMachine(machine)
@@ -52,4 +52,41 @@ class MachineConfigTest {
         plan.test();
     }
 
+    @Test
+    void givenOpen_whenMoreCoins_shouldStayOpen() throws Exception {
+        StateMachineTestPlan<DomainState, DomainEvent> plan =
+                StateMachineTestPlanBuilder.<DomainState, DomainEvent>builder()
+                        .stateMachine(machine)
+                        .step()
+                        .expectStateMachineStarted(1)
+                        .expectState(DomainState.LOCKED)
+                        .and().step()
+                        .sendEvent(DomainEvent.COIN)
+                        .sendEvent(DomainEvent.COIN)
+                        .sendEvent(DomainEvent.COIN)
+                        .expectStateChanged(3)
+                        .expectState(DomainState.UNLOCKED)
+                        .and().build();
+
+        plan.test();
+    }
+
+    @Test
+    void givenClosed_whenPushHard_shouldStayClosed() throws Exception {
+        StateMachineTestPlan<DomainState, DomainEvent> plan =
+                StateMachineTestPlanBuilder.<DomainState, DomainEvent>builder()
+                        .stateMachine(machine)
+                        .step()
+                        .expectStateMachineStarted(1)
+                        .expectState(DomainState.LOCKED)
+                        .and().step()
+                        .sendEvent(DomainEvent.PUSH)
+                        .sendEvent(DomainEvent.PUSH)
+                        .sendEvent(DomainEvent.PUSH)
+                        .expectStateChanged(3)
+                        .expectState(DomainState.LOCKED)
+                        .and().build();
+
+        plan.test();
+    }
 }
