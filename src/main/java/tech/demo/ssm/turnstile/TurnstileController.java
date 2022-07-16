@@ -1,13 +1,11 @@
 package tech.demo.ssm.turnstile;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
-import org.springframework.statemachine.config.StateMachineFactory;
+import org.springframework.statemachine.service.StateMachineService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,14 +23,13 @@ import tech.demo.ssm.turnstile.sm.DomainState;
 @RequiredArgsConstructor
 public class TurnstileController {
 
-    private final StateMachineFactory<DomainState, DomainEvent> machineFactory;
+    private final StateMachineService<DomainState, DomainEvent> machineService;
 
-    private final ConcurrentMap<String, StateMachine<DomainState, DomainEvent>> machines = new ConcurrentHashMap<>();
 
     private Mono<StateMachine<DomainState, DomainEvent>> getMachine(String id) {
         return Mono.just(id)
                 .publishOn(Schedulers.boundedElastic())
-                .map(user -> machines.computeIfAbsent(id, machineFactory::getStateMachine));
+                .map(machineService::acquireStateMachine);
     }
 
     @PostMapping("/coin")

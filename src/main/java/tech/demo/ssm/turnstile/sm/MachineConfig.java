@@ -8,6 +8,7 @@ import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+import org.springframework.statemachine.persist.StateMachineRuntimePersister;
 import tech.demo.ssm.turnstile.sm.actions.BeMoreGenerousAction;
 import tech.demo.ssm.turnstile.sm.actions.GoThroughAction;
 import tech.demo.ssm.turnstile.sm.actions.MakePaymentAction;
@@ -23,12 +24,14 @@ public class MachineConfig extends EnumStateMachineConfigurerAdapter<DomainState
     private final GoThroughAction goThroughAction;
     private final MakePaymentAction makePaymentAction;
     private final YouShallNotPassAction youShallNotPassAction;
+    private final StateMachineRuntimePersister<DomainState, DomainEvent, String> persister;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<DomainState, DomainEvent> config) throws Exception {
         config.withConfiguration()
                 .autoStartup(true)
                 .listener(listener);
+        config.withPersistence().runtimePersister(persister);
     }
 
     @Override
