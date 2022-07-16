@@ -1,5 +1,6 @@
 package tech.demo.ssm.turnstile.sm;
 
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ class MachineConfigTest {
 
     @BeforeEach
     void setUp() {
-        machine = machineFactory.getStateMachine();
+        machine = machineFactory.getStateMachine("test-ssm");
         machine.stopReactively().block();
     }
 
