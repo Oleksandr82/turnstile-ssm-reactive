@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.test.StateMachineTestPlan;
 import org.springframework.statemachine.test.StateMachineTestPlanBuilder;
 
@@ -12,10 +13,13 @@ import org.springframework.statemachine.test.StateMachineTestPlanBuilder;
 class MachineConfigTest {
 
     @Autowired
-    StateMachine<DomainState, DomainEvent> machine;
+    StateMachineFactory<DomainState, DomainEvent> machineFactory;
+
+    private StateMachine<DomainState, DomainEvent> machine;
 
     @BeforeEach
     void setUp() {
+        machine = machineFactory.getStateMachine();
         machine.stopReactively().block();
     }
 
