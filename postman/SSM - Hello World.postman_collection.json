@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "c81a210a-7041-4770-96bc-e4adf811dfa7",
+		"name": "SSM - Hello World",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Drop coin - no multiuser support",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/turnstile/coin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"turnstile",
+						"coin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Push It  - no multiuser support",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/turnstile/push",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"turnstile",
+						"push"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get State  - no multiuser support",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/turnstile/state",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"turnstile",
+						"state"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User 1 drops coin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/turnstile/user/Sophie/coin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"turnstile",
+						"user",
+						"Sophie",
+						"coin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users 1 try to push",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/turnstile/user/Sophie/push",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"turnstile",
+						"user",
+						"Sophie",
+						"push"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get State for User 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/turnstile/user/Sophie/state",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"turnstile",
+						"user",
+						"Sophie",
+						"state"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User 2 drops coin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/turnstile/user/Lucas/coin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"turnstile",
+						"user",
+						"Lucas",
+						"coin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users 2 try to push",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/turnstile/user/Lucas/push",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"turnstile",
+						"user",
+						"Lucas",
+						"push"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get State for User 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/turnstile/user/Lucas/state",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"turnstile",
+						"user",
+						"Lucas",
+						"state"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
